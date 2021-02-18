@@ -68,22 +68,30 @@ public:
     {
         my_thread.join();
     }
+
+    std::thread::id get_id()
+    {
+        return my_thread.get_id();
+    }
 };
 
 int main()
 {
     ThreadPart1 my_thread_exercise;
     my_thread_exercise.construct_thread_function_static();
+    std::cout << "My current tread ID is: " << my_thread_exercise.get_id() << std::endl;
     my_thread_exercise.join();
 
     // Using Lambda
     std::cout << "Now using lambda..." << std::endl;
     my_thread_exercise.construct_thread_function_lambda();
+    std::cout << "My current tread ID is: " << my_thread_exercise.get_id() << std::endl;
     my_thread_exercise.join();
 
     // Using Function Object
     std::cout << "Now using function object..." << std::endl;
     my_thread_exercise.construct_thread_function_object();
+    std::cout << "My current tread ID is: " << my_thread_exercise.get_id() << std::endl;
     my_thread_exercise.join();
 
     return 0;
