@@ -37,8 +37,28 @@ public:
     }
 };
 
-int main()
-{
+// Create an example to illustrate a pointer to member
+struct Foo {
+    int value;
+    void f() { std::cout << "f(" << this->value << ")\n"; }
+    void g() { std::cout << "g(" << this->value << ")\n"; }
+};
+
+void apply(Foo* foo1, Foo* foo2, void (Foo::*fun)()) {
+    (foo1->*fun)();  // call fun on the object foo1
+    (foo2->*fun)();  // call fun on the object foo2
+}
+
+int main() {
+
+    // SO example about bind calling member function and how to use pointer to member
+    Foo foo1{1};
+    Foo foo2{2};
+
+    apply(&foo1, &foo2, &Foo::f);
+    apply(&foo1, &foo2, &Foo::g);
+
+    // Bind exercise
     BindExercise my_bind;
     my_bind.add_by_five_global(1);
     my_bind.add_by_three_member_function(1);
