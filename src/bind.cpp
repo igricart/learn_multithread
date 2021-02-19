@@ -22,6 +22,8 @@ public:
 
     int add_by_five_global(int first)
     {
+        // OBS 1
+        // auto add_func = (add_global, std::placeholders::_1, 5); would also work because when a function is passed anywhere it decays into a pointer
         std::function<int (int)> add_func = std::bind(&add_global, std::placeholders::_1, 5);
         int result = add_func(first);
         std::cout << "Result from add_by_five is... " << result << std::endl;
