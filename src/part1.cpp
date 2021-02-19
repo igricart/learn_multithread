@@ -84,7 +84,7 @@ public:
         std::cout << "Construct function pointer exercise..." << std::endl;
         this->construct_thread_function_static();
         std::cout << "My current tread ID is: " << this->get_id() << std::endl;
-        this->detach();
+        if(this->my_thread.joinable()){this->detach();}
     }
 
     void exercise_thread_function_lambda()
@@ -92,7 +92,7 @@ public:
         std::cout << "Construct function lambda exercise..." << std::endl;
         this->construct_thread_function_static();
         std::cout << "My current tread ID is: " << this->get_id() << std::endl;
-        this->detach();
+        if(this->my_thread.joinable()){this->detach();}
     }
 
     void exercise_thread_function_object()
@@ -100,7 +100,7 @@ public:
         std::cout << "Construct function object exercise..." << std::endl;
         this->construct_thread_function_object();
         std::cout << "My current tread ID is: " << this->get_id() << std::endl;
-        this->detach();
+        if(this->my_thread.joinable()){this->detach();}
     }
 };
 
