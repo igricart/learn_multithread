@@ -27,11 +27,11 @@ public:
         std::cout << "Result from add_by_five is... " << result << std::endl;
     }
 
-    int add_by_five(int first)
+    int add_by_three_member_function(int first)
     {
-        //auto add_func = std::bind(&BindExercise::add, std::placeholders::_1, 5);
-        //int result = add_func(first);
-        //std::cout << "Result from add_by_five is... " << result << std::endl;
+        auto add_func = std::bind(&BindExercise::add, this, std::placeholders::_1, 3);
+        int result = add_func(first);
+        std::cout << "Result from add_by_three_member_function is... " << result << std::endl;
     }
 };
 
@@ -39,4 +39,5 @@ int main()
 {
     BindExercise my_bind;
     my_bind.add_by_five_global(1);
+    my_bind.add_by_three_member_function(1);
 }
