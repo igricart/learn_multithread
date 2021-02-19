@@ -84,7 +84,7 @@ public:
         std::cout << "Construct function pointer exercise..." << std::endl;
         this->construct_thread_function_static();
         std::cout << "My current tread ID is: " << this->get_id() << std::endl;
-        this->join();
+        this->detach();
     }
 
     void exercise_thread_function_lambda()
@@ -92,7 +92,7 @@ public:
         std::cout << "Construct function lambda exercise..." << std::endl;
         this->construct_thread_function_static();
         std::cout << "My current tread ID is: " << this->get_id() << std::endl;
-        this->join();
+        this->detach();
     }
 
     void exercise_thread_function_object()
@@ -100,7 +100,7 @@ public:
         std::cout << "Construct function object exercise..." << std::endl;
         this->construct_thread_function_object();
         std::cout << "My current tread ID is: " << this->get_id() << std::endl;
-        this->join();
+        this->detach();
     }
 };
 
@@ -114,6 +114,9 @@ int main()
 
     // Using Function Object
     my_thread_exercise.exercise_thread_function_object();
+
+    // Time required to print information from detached threads, otherwise the main will be finished.
+    std::this_thread::sleep_for(std::chrono::seconds(5));
 
     return 0;
 }
