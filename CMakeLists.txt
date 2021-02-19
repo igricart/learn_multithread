@@ -9,9 +9,13 @@ project (Multithread)
 # the project's entire directory structure.
 
 add_executable(part1 src/part1.cpp)
-add_executable(bind_example src/bind.cpp)
-add_executable(detach_example src/detach.cpp)
-
 target_link_libraries(part1 pthread)
+
+add_executable(bind_example src/bind.cpp)
 target_link_libraries(bind_example pthread)
+
+add_executable(detach_example src/detach.cpp)
 target_link_libraries(detach_example pthread)
+
+add_executable(threadRAII_example src/threadRAII.cpp)
+target_link_libraries(threadRAII_example pthread)
