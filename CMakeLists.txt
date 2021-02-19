@@ -10,6 +10,8 @@ project (Multithread)
 
 add_executable(part1 src/part1.cpp)
 add_executable(bind_example src/bind.cpp)
+add_executable(detach_example src/detach.cpp)
 
 target_link_libraries(part1 pthread)
 target_link_libraries(bind_example pthread)
+target_link_libraries(detach_example pthread)
