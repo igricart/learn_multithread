@@ -15,12 +15,12 @@ public:
 };
 
 // Class able to use call a thread using Function Pointer, Function Object, and Lambda Function as constructor
-class ThreadPart1
+class ThreadTutorial
 {
 private:
     std::thread my_thread;
 public:
-    ThreadPart1()
+    ThreadTutorial()
     {
         std::cout << "Constructor..." << std::endl;
     }
@@ -69,30 +69,51 @@ public:
         my_thread.join();
     }
 
+    void detach()
+    {
+        my_thread.detach();
+    }
+
     std::thread::id get_id()
     {
         return my_thread.get_id();
+    }
+
+    void exercise_thread_function_pointer()
+    {
+        std::cout << "Construct function pointer exercise..." << std::endl;
+        this->construct_thread_function_static();
+        std::cout << "My current tread ID is: " << this->get_id() << std::endl;
+        this->join();
+    }
+
+    void exercise_thread_function_lambda()
+    {
+        std::cout << "Construct function lambda exercise..." << std::endl;
+        this->construct_thread_function_static();
+        std::cout << "My current tread ID is: " << this->get_id() << std::endl;
+        this->join();
+    }
+
+    void exercise_thread_function_object()
+    {
+        std::cout << "Construct function object exercise..." << std::endl;
+        this->construct_thread_function_object();
+        std::cout << "My current tread ID is: " << this->get_id() << std::endl;
+        this->join();
     }
 };
 
 int main()
 {
-    ThreadPart1 my_thread_exercise;
-    my_thread_exercise.construct_thread_function_static();
-    std::cout << "My current tread ID is: " << my_thread_exercise.get_id() << std::endl;
-    my_thread_exercise.join();
+    ThreadTutorial my_thread_exercise;
+    my_thread_exercise.exercise_thread_function_pointer();
 
     // Using Lambda
-    std::cout << "Now using lambda..." << std::endl;
-    my_thread_exercise.construct_thread_function_lambda();
-    std::cout << "My current tread ID is: " << my_thread_exercise.get_id() << std::endl;
-    my_thread_exercise.join();
+    my_thread_exercise.exercise_thread_function_lambda();
 
     // Using Function Object
-    std::cout << "Now using function object..." << std::endl;
-    my_thread_exercise.construct_thread_function_object();
-    std::cout << "My current tread ID is: " << my_thread_exercise.get_id() << std::endl;
-    my_thread_exercise.join();
+    my_thread_exercise.exercise_thread_function_object();
 
     return 0;
 }
