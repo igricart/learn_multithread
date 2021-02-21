@@ -7,11 +7,11 @@ class ThreadWithArguments
 {
 private:
     std::thread my_thread;
-
+    int ref_variable;
 public:
     ThreadWithArguments()
     {
-        std::cout << "Class Constructor..." << std::endl;
+        std::cout << "Class Constructor... " << std::endl;
     }
 
     void ThreadCallbacVoid()
@@ -22,7 +22,7 @@ public:
     // Callback using one argument and returning void
     void ThreadCallbacSum5(int x)
     {
-        std::cout << "Inside Thread Callback and adding 5, giving the result..." << x + 5 << std::endl;
+        std::cout << "Inside Thread Callback and adding 5, giving the result... " << x + 5 << std::endl;
     }
 
     void ThreadJoin()
@@ -59,15 +59,22 @@ public:
     {
         my_thread = std::thread(std::bind(&ThreadWithArguments::ThreadCallbackSum, this, x, y));
     }
-};
 
-// Test to pass argument by reference
-void ThreadCallbackReference(int &x)
-{
-    int &y = x;
-    ++y;
-    std::cout << "Value of reference inside thread is..." << y << std::endl;
-}
+    void ThreadCallbackRef(int &x)
+    {
+        int &z = x;
+        ++z;
+        std::cout << "The new value of the variable passed by reference inside the new thread is... " << x << std::endl;
+    }
+
+    void PassIntRef(int &x)
+    {
+        std::cout << "The initial value of the variable is... " << x << std::endl;
+        my_thread = std::thread(std::bind(&ThreadWithArguments::ThreadCallbackRef, this, std::ref(x)));
+        my_thread.join();
+        std::cout << "The value of the variable passed by reference after the thread is... " << x << std::endl;
+    }
+};
 
 int main()
 {
@@ -78,11 +85,7 @@ int main()
     my_exercise.HigherThan5(1,3);
     my_exercise.ThreadJoin();
 
-    int x = 9;
-    // Requies std::ref to pass x by reference to the callback
-    std::thread my_ref_test(ThreadCallbackReference, std::ref(x));
-    my_ref_test.join();
-    std::cout << "Value of x is..." << x << std::endl;
-
+    int x = 3;
+    my_exercise.PassIntRef(x);
     return 0;
 }
