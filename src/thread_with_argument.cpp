@@ -14,23 +14,10 @@ public:
         std::cout << "Class Constructor... " << std::endl;
     }
 
-    void ThreadCallbacVoid()
-    {
-        std::cout << "Inside Thread Callback and not returning anything" << std::endl;
-    }
-
     // Callback using one argument and returning void
     void ThreadCallbacSum5(int x)
     {
         std::cout << "Inside Thread Callback and adding 5, giving the result... " << x + 5 << std::endl;
-    }
-
-    void ThreadJoin()
-    {
-        if (my_thread.joinable())
-        {
-            my_thread.join();
-        }
     }
 
     void PassInt(int x)
@@ -74,6 +61,32 @@ public:
         my_thread.join();
         std::cout << "The value of the variable passed by reference after the thread is... " << x << std::endl;
     }
+
+    // Even using const ref, it is possible to change the value if necessary
+    void ThreadCallbackConstRef(int const& x)
+    {
+        int &y = const_cast<int &>(x);
+        ++y;
+        std::cout << "Value of const ref inside of thread is... " << x << std::endl;
+    }
+
+    // Without std::ref, the variable is not passed as reference and therefore the changes made to it are only local to the inner thread
+    void UpdateConstRef(int const& x)
+    {
+        std::cout << "Value of const ref before thread is... " << x << std::endl;
+        my_thread = std::thread(std::bind(&ThreadWithArguments::ThreadCallbackConstRef, this, x));
+        my_thread.join();
+        std::cout << "Value of const ref after thread is... " << x << std::endl;
+    }
+
+    void ThreadJoin()
+    {
+        if (my_thread.joinable())
+        {
+            my_thread.join();
+        }
+    }
+
 };
 
 int main()
@@ -87,5 +100,7 @@ int main()
 
     int x = 3;
     my_exercise.PassIntRef(x);
+
+    my_exercise.UpdateConstRef(x);
     return 0;
 }
