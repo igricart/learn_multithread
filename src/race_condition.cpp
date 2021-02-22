@@ -5,18 +5,20 @@
 class Wallet
 {
     int mMoney;
-    std::mutex mutex;
+    std::mutex my_mutex;
 public:
     Wallet() :mMoney(0){}
     int getMoney()   {     return mMoney; }
     void addMoney(int money)
     {
-        mutex.lock();
+        // Lock guard in constructor locks mutex
+        std::lock_guard<std::mutex> lock_guard(my_mutex);
         for(int i = 0; i < money; ++i)
         {
+            // If any execption occurs, lock guard's destructor will be called due to stack unwinding
             mMoney++;
         }
-        mutex.unlock();
+        // Once function exits, lock guard's destructor unlocks the mutex
     }
 };
 
