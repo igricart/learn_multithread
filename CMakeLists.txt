@@ -29,3 +29,6 @@ target_link_libraries(heap_stack_example)
 
 add_executable(thread_with_argument_example src/thread_with_argument.cpp)
 target_link_libraries(thread_with_argument_example pthread)
+
+add_executable(race_condition_example src/race_condition.cpp)
+target_link_libraries(race_condition_example pthread)
