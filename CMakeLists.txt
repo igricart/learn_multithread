@@ -27,3 +27,5 @@ target_link_libraries(threadRAII_example pthread)
 add_executable(heap_stack_example src/heap_stack.cpp)
 target_link_libraries(heap_stack_example)
 
+add_executable(thread_with_argument_example src/thread_with_argument.cpp)
+target_link_libraries(thread_with_argument_example pthread)
