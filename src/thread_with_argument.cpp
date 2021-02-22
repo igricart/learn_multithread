@@ -74,7 +74,7 @@ public:
     void UpdateConstRef(int const& x)
     {
         std::cout << "Value of const ref before thread is... " << x << std::endl;
-        my_thread = std::thread(std::bind(&ThreadWithArguments::ThreadCallbackConstRef, this, x));
+        my_thread = std::thread(std::bind(&ThreadWithArguments::ThreadCallbackConstRef, this, std::ref(x)));
         my_thread.join();
         std::cout << "Value of const ref after thread is... " << x << std::endl;
     }
