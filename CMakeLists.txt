@@ -35,3 +35,6 @@ target_link_libraries(race_condition_example pthread)
 
 add_executable(event_handle_example src/event_handle.cpp)
 target_link_libraries(event_handle_example pthread)
+
+add_executable(future_promise_example src/future_promise.cpp)
+target_link_libraries(future_promise_example pthread)
