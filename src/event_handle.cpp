@@ -1,33 +1,36 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
+#include <condition_variable>
+#include <functional>
 
 class Application
 {
 private:
+    std::condition_variable cv;
     std::mutex my_mutex;
     bool data_loaded;
 public:
     Application():data_loaded(false){}
     void LoadData()
     {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
         std::cout << "Loading Data from XML... " << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(2));
         std::lock_guard<std::mutex> guard(my_mutex);
         data_loaded = true;
+        cv.notify_one();
+    }
+    bool isDataLoaded()
+    {
+        return data_loaded;
     }
     void ConnectToServer()
     {
         std::cout << "Do Some Handshaking... " << std::endl;
-        my_mutex.lock();
-        // Create a loop to wait for variable to be set, and after that runs a processing
-        while(!data_loaded)
-        {
-            my_mutex.unlock();
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            my_mutex.lock();
-        }
-        my_mutex.unlock();
+        
+        std::unique_lock<std::mutex> unique_mlock(my_mutex);
+
+        cv.wait(unique_mlock, std::bind(&Application::isDataLoaded, this));
         std::cout << "Do Some Processing With XML Data... " << std::endl;
     }
 };
