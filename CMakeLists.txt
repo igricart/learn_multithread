@@ -32,3 +32,6 @@ target_link_libraries(thread_with_argument_example pthread)
 
 add_executable(race_condition_example src/race_condition.cpp)
 target_link_libraries(race_condition_example pthread)
+
+add_executable(event_handle_example src/event_handle.cpp)
+target_link_libraries(event_handle_example pthread)
